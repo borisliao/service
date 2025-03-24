@@ -1,5 +1,5 @@
 import os
-
+from datetime import datetime
 from flask import Flask
 
 
@@ -30,9 +30,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello', methods=['GET'])
-    def hello():
-        return 'Hello, World!'
+    # return json response that says hello world
+    @app.route('/healthcheck', methods=['GET'])
+    def healthcheck():
+        return {
+            'status': 'ok',
+            'version': '0.1.0',
+            'service': 'service',
+            'timestamp': datetime.now().isoformat()
+        }
 
     return app
